@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Лаб 2</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+</head>
+<body>
+    <!--h1>Интернет технологии 2</h1>-->
+<select id="first-select">
+	<option value='language'>Язык</option>
+    <option value='genre'>Жанр</option>
+    <option value='year'>Год</option>
+    <option value='month'>Месяц</option>
+	<option value='mark'>Оценка</option>
+</select>
+<select id="second-select">
+    
+</select>
+<script>
+jQuery(document).ready(function($){
+    $('#first-select').change(function(){
+        $.ajax({
+        type: "GET",
+        url: 'request.php',
+        data: "optionName=" + $('#first-select option:selected').text(),
+        success: function(response){
+            callback_func(response);
+        }
+    });
+})
+function callback_func(response){
+    $('#second-select').html("")
+    var new_value = JSON.parse(response)
+    console.log(new_value)
+    for(var i = 0; i < new_value.length; i++){
+        $('#second-select').append( new Option(new_value[i],'') );
+    }
+}
+})
+</script>
+</body>
+</html>
